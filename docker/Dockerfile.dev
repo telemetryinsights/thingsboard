@@ -1,0 +1,42 @@
+# -------------------------------------------------------------------- 
+# 🐳 Dockerfile.dev — Dev Build Environment for ThingsBoard
+# --------------------------------------------------------------------
+FROM ubuntu:22.04
+
+LABEL maintainer="your-team@telemetryinsights.com"
+LABEL description="Enterprise-grade dev image for ThingsBoard fork"
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+# --------------------------------------------------------------------
+# 🔁 Retry wrapper for apt installs (enterprise resilience)
+# --------------------------------------------------------------------
+RUN apt-get update && \
+  for i in 1 2 3 4 5; do \
+  apt-get install -y curl gnupg git software-properties-common dos2unix && break || sleep 10; \
+  done
+
+# --------------------------------------------------------------------
+# 🔧 Install Node.js 18.x (Angular CLI requires >= 18.19)
+# --------------------------------------------------------------------
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+  for i in 1 2 3 4 5; do \
+  apt-get install -y nodejs && break || sleep 10; \
+  done
+
+# --------------------------------------------------------------------
+# 📦 Install Yarn using Corepack (modern method, Node 16.10+)
+# --------------------------------------------------------------------
+RUN corepack enable && corepack prepare yarn@stable --activate
+
+# --------------------------------------------------------------------
+# ☕ Install Java 17 and Maven
+# --------------------------------------------------------------------
+RUN for i in 1 2 3 4 5; do \
+  apt-get install -y openjdk-17-jdk maven && break || sleep 10; \
+  done
+
+# --------------------------------------------------------------------
+# 🏁 Set default working directory
+# --------------------------------------------------------------------
+WORKDIR /home/thingsboard
