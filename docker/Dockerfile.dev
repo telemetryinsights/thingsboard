@@ -25,9 +25,14 @@ RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
   done
 
 # --------------------------------------------------------------------
-# 📦 Install Yarn using Corepack (modern method, Node 16.10+)
+# 📦 Install Yarn v1.22.22 explicitly (avoid Corepack/Yarn v4 issues)
 # --------------------------------------------------------------------
-RUN corepack enable && corepack prepare yarn@stable --activate
+RUN npm install -g yarn@1.22.22
+
+# --------------------------------------------------------------------
+# 📦 Install Angular CLI (required for ng build)
+# --------------------------------------------------------------------
+RUN npm install -g @angular/cli@18.2.12
 
 # --------------------------------------------------------------------
 # ☕ Install Java 17 and Maven

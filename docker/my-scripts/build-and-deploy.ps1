@@ -131,16 +131,8 @@ if (-not $deployOnly) {
 
     Log "🧱 Building Backend with Maven..."
     docker exec $containerName bash -c "$sysInfoCommand"
-
-    Write-Host "==== DEBUG: Docker Build Context ===="
-    Write-Host "Container Name      : $containerName"
-    Write-Host "Host Mount Path     : $hostDir"
-    Write-Host "Container Path      : $containerDir"
-    Write-Host "Docker Image        : $dockerImage"
-    Write-Host "======================================="
-
-    docker exec $containerName bash -c "ls -l --time-style=long-iso $containerDir"
-    docker exec $containerName bash -c "mvn clean install -pl ui-ngx,application -DskipTests -Dlicense.skip=true"
+    # docker exec $containerName bash -c "cd $containerMountPath && mvn clean install -DskipTests -Dlicense.skip=true"
+    docker exec $containerName bash -c "cd application && mvn clean install -DskipTests -Dlicense.skip=true"
 
     if ($LASTEXITCODE -ne 0) {
         Log "❌ Backend build failed."
