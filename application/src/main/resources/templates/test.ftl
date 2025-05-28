@@ -20,7 +20,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Thingsboard - Test Message</title>
+<title>TI Manager - Test Message</title>
 
 
 <style type="text/css">

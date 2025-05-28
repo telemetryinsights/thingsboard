@@ -20,7 +20,7 @@
 <head>
 <meta name="viewport" content="width=device-width" />
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<title>Thingsboard - Account Activation</title>
+<title>TI Manager - Account Activation</title>
 
 
 <style type="text/css">
