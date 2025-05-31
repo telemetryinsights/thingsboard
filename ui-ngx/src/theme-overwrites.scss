@@ -224,3 +224,7 @@
     opacity: 0.87 !important;
   }
 }
+
+.tb-default .mat-toolbar.mat-primary {
+  --mat-toolbar-container-text-color: #57b857 !important;
+}

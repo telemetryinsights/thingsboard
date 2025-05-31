@@ -1,4 +1,4 @@
-param (
+param ( 
     [switch]$buildOnly,
     [switch]$deployOnly
 )
@@ -12,7 +12,6 @@ $dockerImage = "thingsboard-dev"
 $containerName = "thingsboard-build"
 $containerDir = "/home/thingsboard"
 $hostDir = "C:\GitHub\ti\thingsboard"
-# $containerMountPath = "/home/thingsboard"
 $remoteHost = "192.168.86.122"
 $remoteUser = "piadmin"
 $remoteDir = "/usr/share/thingsboard/bin"
@@ -71,11 +70,9 @@ if (-not $deployOnly) {
         docker rm -f $containerName | Out-Null
     }
 
-    # Use dev source directly (no temp copy)
     $tempDir = $hostDir
     Log "🔗 Using direct dev source from: $tempDir"
 
-    # Normalize paths for Docker
     $tempDir = $tempDir -replace '\\', '/'
     $containerDir = $containerDir -replace '\\', '/'
     $m2Path = "$env:USERPROFILE/.m2" -replace '\\', '/'
@@ -100,48 +97,18 @@ if (-not $deployOnly) {
     $totalSize = "{0:N0}" -f ($srcSummary.Sum)
     Log "📦 Using $fileCount files and $dirCount directories (~$totalSize bytes) from live dev source."
 
-    # Log "📦 Building Angular frontend (Yarn)..."
     $sysInfoCommand = "echo '=== System Info ===' && free -h && echo && echo '=== CPU Info ===' && lscpu | grep -E '^CPU\(s\)|Model name|Architecture' && echo && echo '=== Load & Uptime ===' && uptime"
     docker exec $containerName bash -c "$sysInfoCommand"
 
-    # Log "📦 Installing dependencies for ui-ngx..."
-    # docker exec $containerName bash -c "cd $containerMountPath/ui-ngx && yarn install"
-    # if ($LASTEXITCODE -ne 0) {
-    #     Log "❌ Installing dependencies for ui-ngx failed."
-    #     exit 1
-    # }
-
-    # Log "📦 Installing dependencies for msa/web-ui..."
-    # docker exec $containerName bash -c "cd $containerMountPath/msa/web-ui && yarn install"
-    # if ($LASTEXITCODE -ne 0) {
-    #     Log "❌ Installing dependencies for msa/web-ui failed."
-    #     exit 1
-    # }
-
-    # Log "🎨 Building Angular UI (ui-ngx)..."
-    # docker exec $containerName bash -c "cd $containerMountPath/ui-ngx && yarn build"
-    # if ($LASTEXITCODE -ne 0) {
-    #     Log "❌ Frontend build failed."
-    #     exit 1
-    # }
-
-    # Log "📁 Verifying built UI assets exist..."
-    # docker exec $containerName bash -c "ls -l ui-ngx/target/generated-resources/public"
-
+    Log "📦 Installing dependencies and building frontend (ui-ngx)..."
+    docker exec $containerName bash -c "cd ui-ngx && yarn install && yarn build" 2>&1 | Tee-Object -FilePath $logFile -Append
+    if ($LASTEXITCODE -ne 0) {
+        Log "❌ Frontend build failed."
+        exit 1
+    }
 
     Log "🧱 Building Backend with Maven..."
-    docker exec $containerName bash -c "$sysInfoCommand"
-
-    Write-Host "==== DEBUG: Docker Build Context ===="
-    Write-Host "Container Name      : $containerName"
-    Write-Host "Host Mount Path     : $hostDir"
-    Write-Host "Container Path      : $containerDir"
-    Write-Host "Docker Image        : $dockerImage"
-    Write-Host "======================================="
-
-    docker exec $containerName bash -c "ls -l --time-style=long-iso $containerDir"
-    docker exec $containerName bash -c "mvn clean install -pl ui-ngx,application -DskipTests -Dlicense.skip=true"
-
+    docker exec $containerName bash -c "mvn clean install -pl ui-ngx,application -DskipTests -Dlicense.skip=true" 2>&1 | Tee-Object -FilePath $logFile -Append
     if ($LASTEXITCODE -ne 0) {
         Log "❌ Backend build failed."
         exit 1
@@ -203,7 +170,29 @@ if (-not $buildOnly) {
 }
 
 # -----------------------------
-# Step 3: Wrap Up
+# Step 3: Clean and Reclone Dev Repo
+# -----------------------------
+Log "🧹 Resetting development environment..."
+
+$basePath = "C:\GitHub\ti"
+$devPath = Join-Path $basePath "thingsboard"
+$backupPath = Join-Path $basePath "thingsboard.old"
+
+if (Test-Path $backupPath) {
+    Log "Deleting old backup: $backupPath"
+    Remove-Item -Recurse -Force $backupPath
+}
+
+if (Test-Path $devPath) {
+    Log "Renaming current dev folder to: $backupPath"
+    Rename-Item $devPath $backupPath
+}
+
+Log "🔄 Cloning fresh repo into: $devPath"
+git clone https://github.com/TelemetryInsights/thingsboard.git $devPath | Tee-Object -FilePath $logFile -Append
+
+# -----------------------------
+# Step 4: Wrap Up
 # -----------------------------
 $duration = (Get-Date) - $startTime
 Log "==== Script Finished in $($duration.TotalSeconds) seconds ===="
