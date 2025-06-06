@@ -118,7 +118,7 @@
                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; line-height: 24px; margin: 0;">
                     <td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; margin: 0px; padding: 0px 32px; height: 93px; vertical-align: top;" valign="top">
                         <div style="padding: 16px; margin-bottom: 24px; border: solid 2px #EB5757; border-radius: 6px; background: rgba(235, 87, 87, 0.05);"><img style="vertical-align: middle; padding-right: 6px;" src="https://media.thingsboard.io/email/alarm.png" alt="" width="20" height="20" />
-                            <div style="display: inline; vertical-align: middle;">We have <strong>disabled</strong> the ${apiFeature} for your account because ThingsBoard has already <strong>${apiLimitValueLabel}.</strong></div>
+                            <div style="display: inline; vertical-align: middle;">We have <strong>disabled</strong> the ${apiFeature} for your account because Manager- Telemetry Insights has already <strong>${apiLimitValueLabel}.</strong></div>
                         </div>
                     </td>
                 </tr>
@@ -126,7 +126,7 @@
                     <td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0px; padding: 0px 32px; height: 59px;" valign="top">Please contact your system administrator to resolve the issue.</td>
                 </tr>
                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
-                    <td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0px; padding: 0px 32px; height: 40px;" valign="top">&mdash; The ThingsBoard</td>
+                    <td class="content-block" style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0px; padding: 0px 32px; height: 40px;" valign="top">&mdash; Manager - Telemetry Insights</td>
                 </tr>
                 </tbody>
             </table>
@@ -137,7 +137,7 @@
 <table style="color: #999999; font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 14px; box-sizing: border-box; margin: 0px auto; height: 64px; background-color: #f6f6f6; width: 100%;" cellpadding="0px 0px 20px">
     <tbody>
     <tr style="box-sizing: border-box; margin: 0px;">
-        <td class="aligncenter content-block" style="box-sizing: border-box; font-size: 12px; margin: 0px; padding: 0px 0px 20px; width: 600px; text-align: center; vertical-align: middle;" align="center" valign="top">This email was sent to&nbsp;<a style="box-sizing: border-box; color: #999999; margin: 0px;" href="mailto:${targetEmail}">${targetEmail}</a>&nbsp;by ThingsBoard.</td>
+        <td class="aligncenter content-block" style="box-sizing: border-box; font-size: 12px; margin: 0px; padding: 0px 0px 20px; width: 600px; text-align: center; vertical-align: middle;" align="center" valign="top">This email was sent to&nbsp;<a style="box-sizing: border-box; color: #999999; margin: 0px;" href="mailto:${targetEmail}">${targetEmail}</a>&nbsp;by Manahger - Telemetry Insights.</td>
     </tr>
     </tbody>
 </table>

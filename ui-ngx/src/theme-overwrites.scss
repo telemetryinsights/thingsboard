@@ -228,3 +228,18 @@
 .tb-default .mat-toolbar.mat-primary {
   --mat-toolbar-container-text-color: #57b857 !important;
 }
+
+.tb-default .mat-toolbar.mat-primary .mat-mdc-select-value,
+.tb-default .mat-toolbar.mat-primary .mat-mdc-select-arrow,
+.tb-default .mat-toolbar.mat-primary .mat-mdc-select-arrow:after {
+  color: #57b857 !important;
+}
+
+.mat-mdc-select-panel {
+  color: #000; // menu text
+  background-color: #fff; // dropdown background
+}
+
+.mat-mdc-option.mdc-list-item--selected {
+  color: #57b857 !important; // selected item text
+}
