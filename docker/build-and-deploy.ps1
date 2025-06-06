@@ -12,14 +12,14 @@ $dockerImage = "thingsboard-dev"
 $containerName = "thingsboard-build"
 $containerDir = "/home/thingsboard"
 $hostDir = "C:\GitHub\ti\thingsboard"
-$remoteHost = "192.168.86.122"
-$remoteUser = "piadmin"
+$remoteHost = "192.168.86.140"
+$remoteUser = "thingsboard"
 $remoteDir = "/usr/share/thingsboard/bin"
 $tempPath = "/tmp/thingsboard.jar"
 $sshUserHost = "${remoteUser}@${remoteHost}"
 $plink = "C:\Program Files\PuTTY\plink.exe"
 $pscp = "C:\Program Files\PuTTY\pscp.exe"
-$ppk = "$HOME\.ssh\id_pi_nopass.ppk"
+$ppk = "$env:USERPROFILE\.ssh\id_jupiter_ed25519.ppk"
 $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $logFile = "build-deploy-$timestamp.log"
 $startTime = Get-Date
@@ -121,7 +121,7 @@ if (-not $deployOnly) {
 # Step 2: Deploy to Pi
 # -----------------------------
 if (-not $buildOnly) {
-    Log "📤 Deploying to Raspberry Pi..."
+    Log "📤 Deploying to Production Server..."
 
     $backendJar = (Get-ChildItem "$hostDir\application\target\thingsboard-*-boot.jar" | Sort-Object LastWriteTime -Descending | Select-Object -First 1).FullName
     if (-not $backendJar) { Log "❌ Backend JAR not found. Aborting."; exit 1 }
